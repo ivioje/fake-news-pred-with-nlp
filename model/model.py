@@ -12,7 +12,7 @@ from sklearn.naive_bayes import MultinomialNB
 # Read file
 READ_PATH = 'analysis/dataFor_modelling.pkl'
 
-# save the pickled file to a variable called heartData
+# save the pickled file to a variable called data
 data = pd.read_pickle(READ_PATH)
 
 # Feature extration & TF-IDF
