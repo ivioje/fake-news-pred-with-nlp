@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request
-import pickle
-from nltk.corpus import stopwords
 import re
+import pickle
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 
 app = Flask(__name__)
