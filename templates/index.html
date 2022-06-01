@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Fake News Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">FAKE NEWS DETECTION SYSTEM</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link"
+                        href="https://www.who.int/campaigns/connecting-the-world-to-combat-coronavirus/how-to-report-misinformation-online">
+                        Report a fake news</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="bg-image"></div>
+    <div class="wrapper">
+        <p style=text-align:center>A fake news detection web application using Natural Language Processing and Machine
+            Learning algorithm, deployed using
+            Heroku. </p>
+        <p style=text-align:center>Enter any news item to try it.</p>
+        <br>
+        <div class='container'>
+            <form action="/" method="POST">
+                <div class="col-three-forth text-center col-md-offset-2">
+                    <div class="form-group">
+                        <textarea class="form-control jTextarea mt-3" id="jTextarea'" rows="8" name="text"
+                            placeholder="Type or paste news item..." required>{{text}}</textarea>
+                        <br><br>
+                        <button class="btn btn-primary btn-outline btn-md" type="submit" name="predict">Predict</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <br>
+        {% if result %}
+        <p style="text-align:center"><strong>Prediction : {{result}}</strong></p>
+        {% endif %}
+    </div>
+
+    <style>
+        body,
+        html {
+            height: 100%;
+        }
+
+        .bg-image {
+            background-image: url('static/images/adam-chang-IWenq-4JHqo-unsplash.jpg');
+
+            /* Add the blur effect */
+            filter: blur(4px);
+            -webkit-filter: blur(4px);
+
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .wrapper {
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/opacity/see-through */
+            color: white;
+            font-weight: bold;
+            border: 3px solid #f1f1f1;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            width: 80%;
+            padding: 20px;
+            text-align: center;
+
+            margin-top: 1rem;
+        }
+    </style>
+
+</body>
+
+</html>
