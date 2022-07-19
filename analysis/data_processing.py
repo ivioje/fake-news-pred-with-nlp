@@ -5,6 +5,8 @@ import nltk
 nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 
 """Steps in the pipeline for natural language processing 
   1. Acquiring and loading the data
@@ -17,9 +19,10 @@ from nltk.tokenize import word_tokenize
  """
 
 # 1. Acquring and loading the data
-FAKE_NEWS = pd.read_csv('data/Fake.csv')
-REAL_NEWS = pd.read_csv('data/True.csv')
-SAVE_PATH = 'analysis/dataFor_modelling.pkl'
+# load datasets
+FAKE_NEWS = pd.read_csv('/home/caleb/mlProject/fake-news-pred-with-nlp/data/Fake.csv')
+REAL_NEWS = pd.read_csv('/home/caleb/mlProject/fake-news-pred-with-nlp/data/True.csv')
+SAVE_PATH = '/home/caleb/mlProject/fake-news-pred-with-nlp/analysis/dataFor_modelling.pkl'
 
 # 2. Cleaning the dataset
 # Since there's no label feature in the two sets of data, we can create labels to distinguish if the news
@@ -28,29 +31,37 @@ REAL_NEWS['label'] = 1
 FAKE_NEWS['label'] = 0
 
 #drop unnecessary columns
-real = REAL_NEWS.drop(['title', 'subject', 'date'], axis=1)
-fake = FAKE_NEWS.drop(['title', 'subject', 'date'], axis=1)
+real = REAL_NEWS.drop(['date'], axis=1)
+fake = FAKE_NEWS.drop(['date'], axis=1)
 
-# combine the datasets
+# concatenate the datasets
 data = pd.concat([real, fake], axis=0)
+
+# concat title, subject and text into a column called content
+data['content'] = data['title'] + ' ' + data['subject'] + ' ' + data['text']
 
 # Check if the labels are balanced
 data.label.value_counts().plot(kind="bar", color=["salmon", "lightblue"])
-
-# 3. Removing extra symbols
 # Remove urls
-text = re.sub(r'^https?:\/\/.*[\r\n]*', '', str(data.text), flags=re.MULTILINE)
-# Remove user @ references and '#' from text
+text = re.sub(r'^https?:\/\/.*[\r\n]*', '', str(data['content']), flags=re.MULTILINE)
+
+# Remove user @ references and ‘#’ from text
 text = re.sub(r'\@\w+|\#',"", text)
 
-# 4. Removing punctuations
-text = text.translate(str.maketrans("","", string.punctuation))
+# remove punctuations
+text.translate(str.maketrans("","", string.punctuation))
 
-# 5-6. Removing stop words & tokenization
 stop_words = set(stopwords.words('english'))
+
 # word tokenization
 tokens = word_tokenize(text)
 words = [w for w in tokens if not w in stop_words]
+
+# convert the tokens into meaningful numbers with TF-IDF.
+# Use the TF-IDF method to extract and build the features for 
+# our machine learning pipeline.
+tf_vector = TfidfVectorizer(sublinear_tf=True)
+tf_vector.fit(data['content'])
 
 # 7. pickle file
 data.to_pickle(SAVE_PATH)

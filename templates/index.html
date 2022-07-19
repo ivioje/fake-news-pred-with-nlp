@@ -41,21 +41,46 @@
             <form action="/" method="POST">
                 <div class="col-three-forth text-center col-md-offset-2">
                     <div class="form-group">
-                        <textarea class="form-control jTextarea mt-3" id="jTextarea'" rows="8" name="text"
+                        <label>Tttle</label>
+                        <input type="text" name="title" value={{title}}>
+                        <label>Subject</label>
+                        <input type="text" name="subject" value={{subject}}>
+
+                        <textarea class="form-control jTextarea mt-3" id="jTextarea'" rows="4" name="text"
                             placeholder="Type or paste news item..." required>{{text}}</textarea>
                         <br><br>
-                        <button class="btn btn-primary btn-outline btn-md" type="submit" name="predict">Predict</button>
+                        <button class="btn btn-primary btn-outline btn-md" type="submit" name="detect">Detect</button>
                     </div>
                 </div>
             </form>
         </div>
         <br>
+
+    </div>
+    <div>
         {% if result %}
-        <p style="text-align:center"><strong>Prediction : {{result}}</strong></p>
+        <table>
+            <tr>
+                <th>RESULT</th>
+                <th>News title</th>
+                <th>News Content</th>
+            </tr>
+            <tr>
+                <td>{{title}}</td>
+                <td>{{text}}</td>
+                <td>{{result}}</td>
+            </tr>
+        </table>
         {% endif %}
     </div>
 
     <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
         body,
         html {
             height: 100%;
